@@ -14,6 +14,8 @@ public class FruitServiceImpl implements FruitService{
 
     @Autowired
     private FruitRepository fruitRepository;
+    @Autowired
+    private SeqGeneratorService seqGeneratorService;
 
     @Override
     public List<Fruit> findAll() {
@@ -29,6 +31,9 @@ public class FruitServiceImpl implements FruitService{
 
     @Override
     public Fruit save(Fruit fruit) {
+        if(fruit.getId() == null){
+            fruit.setId(seqGeneratorService.generateSequence(Fruit.SEQ_NAME));
+        }
         return fruitRepository.save(fruit);
     }
 
